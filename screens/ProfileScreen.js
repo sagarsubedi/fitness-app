@@ -38,8 +38,10 @@ const ProfileScreen = ({ navigation }) => {
 
       {/* update password */}
       <View className='mt-4 w-full'>
-        <Text className='ml-2 text-secondary font-bold'>Change Password</Text>
-        <View className='border-b-4 border-indigo-500 mt-2' />
+        <Text className='ml-2 text-secondary font-bold' style={{fontSize:16}}>Change Password</Text>
+        
+        <View className='border-b-4 border-primary mt-2' />
+        
         <View className='mt-4 flex justify-center items-center'>
           <KeyboardAvoidingView style={styles.inputContainer}>
             <TextInput
@@ -61,7 +63,6 @@ const ProfileScreen = ({ navigation }) => {
             />
           </KeyboardAvoidingView>
           <View className='mt-4'>
-            {/* <Button title='Update' onPress={handleUpdatePassword} style={styles.button} /> */}
             <TouchableOpacity
               onPress={handleUpdatePassword}
               style={styles.button}
@@ -72,11 +73,16 @@ const ProfileScreen = ({ navigation }) => {
           </View>
 
         </View>
+
+        <View className='border-b-4 border-primary mt-2' />
+      
       </View>
 
 
 
-      <View className='mt-14'>
+
+
+      <View className='mt-2'>
         <Text>Change Email</Text>
       </View>
 

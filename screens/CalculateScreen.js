@@ -72,10 +72,6 @@ const CalculateScreen = () => {
       </KeyboardAvoidingView>
 
       <View className='mt-10'>
-        {/* <Button
-          title='Calculate'
-          onPress={() => displayBMI(weight, height)}
-        /> */}
         <TouchableOpacity
           style={styles.button}
           onPress={() => displayBMI(weight, height)}
@@ -85,10 +81,6 @@ const CalculateScreen = () => {
       </View>
 
       <View className='mt-10'>
-        {/* <Button
-          title='Get Calories Intake'
-          onPress={() => getCaloriesRecommendation(weight, height)}
-        /> */}
         <TouchableOpacity
           style={[styles.button, styles.buttonOutline]}
           onPress={() => getCaloriesRecommendation(weight, height)}
