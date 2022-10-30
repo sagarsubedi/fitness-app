@@ -28,6 +28,7 @@ const LoginScreen = ({ navigation }) => {
       .createUserWithEmailAndPassword(email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
+        console.log('Signed up with: ', user.email)
         navigation.replace('Home')
       })
       .catch((error) => alert("Something went wrong. Please try again."));
@@ -38,6 +39,7 @@ const LoginScreen = ({ navigation }) => {
       .signInWithEmailAndPassword(email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
+        console.log('Logged in with: ', user.email)
         navigation.replace('Home')
       })
       .catch((error) => alert('Incorrect email or password'));
