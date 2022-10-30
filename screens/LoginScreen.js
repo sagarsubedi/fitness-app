@@ -25,13 +25,21 @@ const LoginScreen = ({ navigation }) => {
 
   const handleSignUp = () => {
     auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((userCredentials) => {
-        const user = userCredentials.user;
-        console.log('Signed up with: ', user.email)
-        navigation.replace('Home')
+      .fetchSignInMethodsForEmail(email)
+      .then((providers) => {
+        if (providers.length === 0) {
+        auth
+          .createUserWithEmailAndPassword(email, password)
+          .then((userCredentials) => {
+            const user = userCredentials.user;
+            console.log('Signed up with: ', user.email)
+            navigation.replace('Home')
+          })
+            .catch((error) => alert(error));
+        } else {
+          alert('Email already in use. Please login instead.')
+        }
       })
-      .catch((error) => alert("Something went wrong. Please try again."));
   }
 
   const handleLogin = () => {
@@ -45,6 +53,32 @@ const LoginScreen = ({ navigation }) => {
       .catch((error) => alert('Incorrect email or password'));
   }
 
+  const handleForgotPassword = () => {
+    // check if email is empty
+    if (email === '') {
+      alert('Please enter your email first')
+      return
+    }
+    // check if user exists
+    auth
+      .fetchSignInMethodsForEmail(email)
+      .then((providers) => {
+        if (providers.length === 0) {
+          alert('User does not exist. Please sign up instead.')
+        } else {
+          auth
+            .sendPasswordResetEmail(email)
+            .then(() => {
+              alert('Password reset email sent. Check spam folder. Please set a new password and login again.')
+            })
+            .catch((error) => alert('Something went wrong. Please try again.'))          
+        }
+      })
+      .catch((error) => alert('Try again!'))
+
+
+  }
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -53,13 +87,11 @@ const LoginScreen = ({ navigation }) => {
       <View style={styles.inputContainer}>
         <TextInput placeholder='Email'
           style={styles.input}
-          //value={email}
           onChangeText={(text) => setEmail(text)}
         />
         <TextInput placeholder='Password'
           style={styles.input}
           secureTextEntry
-          //value={password}
           onChangeText={(text) => setPassword(text)}
         />
       </View>
@@ -80,6 +112,19 @@ const LoginScreen = ({ navigation }) => {
         >
           <Text style={styles.buttonOutlineText}>Register</Text>
         </TouchableOpacity>        
+      </View>
+
+      <View className='border-primary border-b-8 mt-8 w-48' />
+
+
+      <View className='mt-8'>
+        <TouchableOpacity
+          onPress={handleForgotPassword}
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>Reset Password</Text>
+        </TouchableOpacity>
+
       </View>
     </KeyboardAvoidingView>
   )
