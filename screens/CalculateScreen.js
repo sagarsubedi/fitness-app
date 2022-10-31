@@ -115,7 +115,9 @@ const CalculateScreen = () => {
         </TouchableOpacity>
       </View>
 
-      <View className='mt-10'>
+            <View className='border-primary border-b-8 mt-2 w-48' />
+
+      <View className='mt-4'>
         <TouchableOpacity
           style={styles.button}
           onPress={() => clearInputs()}
