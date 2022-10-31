@@ -1,54 +1,54 @@
-import { StyleSheet, Text, View, TouchableOpacity, Button, TextInput, KeyboardAvoidingView } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native'
+import { Picker } from '@react-native-picker/picker'
 import React, {useState} from 'react'
-
-const calculateBMI = (wt, ht) => {
-  return (wt / (ht * ht)).toFixed(2)
-}
-
-const isNumberInputValid = (input) => {
-  if (input === 0 || isNaN(input) || input === '' || input === null) {
-    return false
-  }
-  return true
-}
-
-const displayBMI = (wt, ht) => {
-  if (!isNumberInputValid(wt) || !isNumberInputValid(ht)) {
-    alert('Please enter a valid weight and height')
-    return
-  }
-  const bmi = calculateBMI(wt, ht)
-  alert("Your BMI is " + bmi)
-}
-
-const getCaloriesRecommendation = (wt, ht) => {
-  if (!isNumberInputValid(wt) || !isNumberInputValid(ht)) {
-    alert('Please enter a valid weight and height')
-    return
-  }
-  const bmi = calculateBMI(wt, ht)
-  if (bmi < 18.5) {
-
-    alert("You are underweight. You should eat more calories")
-
-  } else if (bmi >= 18.59 && bmi <= 24.99) {
-
-    alert("You are normal weight. You should eat the recommended calories")
-
-  } else if (bmi >= 25 && bmi <= 29.99) {
-
-    alert("You are overweight. You should eat less calories")
-
-  } else if (bmi >= 30) {
-    alert("You are obese. You should eat less calories")
-  }
-}
-
 
 const CalculateScreen = () => {
 
   const [weight, setWeight] = useState(0.0)
   const [height, setHeight] = useState(0.0)
+  const [age, setAge] = useState(0.0)
+  const [gender, setGender] = useState('Female')
+
+  const clearInputs = () => {
+    setWeight(0.0)
+    setHeight(0.0)
+    setAge(0.0)
+    setGender('Female')
+  }
+
+  const calculateBMI = (wt, ht) => {
+    return (wt / (ht * ht)).toFixed(2)
+  }
+
+  const isNumberInputValid = (input) => {
+    if (input === 0 || isNaN(input) || input === '' || input === null) {
+      return false
+    }
+    return true
+  }
+
+  const displayBMI = (wt, ht) => {
+    if (!isNumberInputValid(wt) || !isNumberInputValid(ht)) {
+      alert('At least one of the input is invalid')
+      return
+    }
+    const bmi = calculateBMI(wt, ht)
+    alert("Your BMI is " + bmi)
+
+  }
+
+  const displayCaloriesRecommendation = (wt, ht, ag, gender) => { 
+    if (!isNumberInputValid(wt) || !isNumberInputValid(ht) || !isNumberInputValid(ag)) {
+      alert('At least one of the input is invalid')
+      return
+    }
+    const caloriesRecommendation = gender === "male" ?
+      66.5 + 13.75 * (wt) + 5.003 * (ht*100) - 6.755 * (ag)
+      :
+      655.1 + (9.563 * (wt)) + (1.85 * (ht*100)) - (4.676 * (ag));
+    alert("Your recommended daily calories intake is " + caloriesRecommendation.toFixed(2))
+
+  }
 
   return (
     
@@ -65,10 +65,36 @@ const CalculateScreen = () => {
         <TextInput
           value={height}
           onChangeText={(height) => setHeight(height)}
-          placeholder='Height in m'
+          placeholder='Height in meters'
           keyboardType='numeric'
           style={styles.input}
         />
+
+        <TextInput
+          value={age}
+          onChangeText={(age) => setAge(age)}
+          placeholder='You age'
+          keyboardType='numeric'
+          style={styles.input}
+        />
+
+        <View className='mt-2 ml-2 flex-row items-center justify-between'>
+          <Text style={{fontSize: 18}}>Gender</Text>
+
+          <View>
+            <Picker
+              selectedValue={gender}
+              style={{ height: 50, width: 150 }}
+              onValueChange={(itemValue, itemIndex) => setGender(itemValue)}
+              
+              >
+              <Picker.Item label="Female" value="female" />
+              <Picker.Item label="Male" value="male" />
+            
+            </Picker>        
+          </View>
+        </View>
+
       </KeyboardAvoidingView>
 
       <View className='mt-10'>
@@ -80,12 +106,21 @@ const CalculateScreen = () => {
         </TouchableOpacity>
       </View>
 
-      <View className='mt-10'>
+      <View className='mt-4'>
         <TouchableOpacity
           style={[styles.button, styles.buttonOutline]}
-          onPress={() => getCaloriesRecommendation(weight, height)}
+          onPress={() => displayCaloriesRecommendation(weight, height, age, gender)}
         >
           <Text style={styles.buttonOutlineText}>Get Calories Intake</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View className='mt-10'>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => clearInputs()}
+        >
+          <Text style={styles.buttonText}>Reset Fields</Text>
         </TouchableOpacity>
       </View>
 
@@ -134,6 +169,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 })
+
 
 
 export default CalculateScreen
