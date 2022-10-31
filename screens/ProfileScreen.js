@@ -82,9 +82,9 @@ const ProfileScreen = ({ navigation }) => {
 
 
 
-      <View className='mt-2'>
+      {/* <View className='mt-2'>
         <Text>Change Email</Text>
-      </View>
+      </View> */}
 
       <View className='mb-2'>
         <TouchableOpacity
