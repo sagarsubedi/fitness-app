@@ -73,7 +73,7 @@ const CalculateScreen = () => {
         <TextInput
           value={age}
           onChangeText={(age) => setAge(age)}
-          placeholder='You age'
+          placeholder='Your age'
           keyboardType='numeric'
           style={styles.input}
         />
