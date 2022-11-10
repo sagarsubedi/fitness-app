@@ -12,10 +12,18 @@ const ProfileScreen = ({ navigation }) => {
     auth.signOut()
       .then(() => {
         console.log('User signed out')
-      navigation.replace('Login')
+        navigation.replace('Login')
       })
       .catch((error) => alert(error.message))
     
+  }
+
+  const checkPasswordLength = (password) => {
+    if (password.length < 6) {
+      alert('Password must be at least 6 characters')
+      return false
+    }
+    return true
   }
 
   const handleUpdatePassword = () => {
@@ -26,12 +34,17 @@ const ProfileScreen = ({ navigation }) => {
       setConfirmPassword('')
       return
     }
+    const isPasswordValid = checkPasswordLength(newPassword)
+    if (!isPasswordValid) {
+      return
+    }
     auth.currentUser.updatePassword(newPassword)
       .then(() => {
         alert('Password successfully updated')
       })
       .catch((error) => alert('Something went wrong. Please try again.'))
-   }
+  }
+
   
   return (
     <View className='h-full flex justify-between items-center'>
