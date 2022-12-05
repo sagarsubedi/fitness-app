@@ -80,7 +80,7 @@ const LoginScreen = ({ navigation }) => {
   }
 
   return (
-    <KeyboardAvoidingView
+    <View
       style={styles.container}
       behavior='height'
     >
@@ -126,7 +126,7 @@ const LoginScreen = ({ navigation }) => {
         </TouchableOpacity>
 
       </View>
-    </KeyboardAvoidingView>
+    </View>
   )
 }
 
